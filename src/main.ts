@@ -32,7 +32,7 @@ if (appRoot) {
         }
     };
 
-    const renderTooltipManager = (imageSrc: string, dimensions: { width: number; height: number }) => {
+    const renderTooltipManager = (imageSrc: string, _dimensions: { width: number; height: number }) => {
         const annotationContainer = document.createElement("div");
         annotationContainer.id = "annotation-container";
         appRoot.replaceChildren(annotationContainer);

@@ -1,11 +1,33 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "strict": true,
-    "noUnusedParameters": true
-  }
+  
+    "compilerOptions": {
+      "module": "ESNext",
+      "moduleResolution": "Node",
+      "target": "ESNext",
+      "types": ["node"],
+      "esModuleInterop": true,
+      "skipLibCheck": true
+    },
+  
+  // "compilerOptions": {
+  //   "target": "ES2020",
+  //   "module": "ESNext",
+  //   "moduleResolution": "bundler",
+  //   "allowImportingTsExtensions": true,
+  //   "noEmit": true,
+  //   "strict": true,
+  //   "noUnusedParameters": true,
+  //   "types": ["node"], 
+  //   "skipLibCheck": true, 
+  //   "esModuleInterop": true, 
+  //   "forceConsistentCasingInFileNames": true
+  // },
+  "include": [
+    "src/**/*", 
+    "node_modules/vite/dist/node"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }
