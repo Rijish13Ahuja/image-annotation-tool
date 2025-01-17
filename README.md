@@ -23,7 +23,7 @@ Before running the project, ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/image-annotation-tool.git
+git clone https://github.com/Rijish13Ahuja/image-annotation-tool.git
 cd image-annotation-tool
 ```
 
