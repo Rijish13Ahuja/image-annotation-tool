@@ -1,6 +1,8 @@
 import { ImageUploader } from "./ImageUploader.js";
 import { TooltipManager } from "./TooltipManager.js";
 import './styles.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 
 const appRoot = document.getElementById("app");
 
