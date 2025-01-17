@@ -123,11 +123,4 @@ Contributions are welcome! If you have ideas or improvements, please fork the re
 
 ---
 
-## License
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-## Support
-If you encounter any issues or have questions, please create an issue in the repository or contact the maintainers.
 
