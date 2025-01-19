@@ -8,7 +8,6 @@ export function initializeSidebar(
     const searchInput = document.getElementById("searchTooltips") as HTMLInputElement;
     const exportButton = document.getElementById("exportTooltips")!;
   
-    // Ensure sort controls are added only once
     if (!document.getElementById("sortByCreation")) {
       const sortControls = document.createElement("div");
       sortControls.className = "sort-controls";
@@ -27,7 +26,6 @@ export function initializeSidebar(
   
       tooltipList.parentElement?.insertBefore(sortControls, tooltipList);
   
-      // Attach event listeners to sort buttons
       sortCreationButton.addEventListener("click", () => {
         const sortedByCreation = [...tooltips];
         renderTooltipList(sortedByCreation);
@@ -42,7 +40,7 @@ export function initializeSidebar(
     }
   
     function renderTooltipList(filteredTooltips = tooltips) {
-      tooltipList.innerHTML = ""; // Clear the list
+      tooltipList.innerHTML = "";
   
       filteredTooltips.forEach((tooltip, index) => {
         const tooltipItem = document.createElement("div");
@@ -64,13 +62,11 @@ export function initializeSidebar(
         tooltipList.appendChild(tooltipItem);
       });
   
-      // Edit Tooltip with Modal
       document.querySelectorAll(".btn-edit").forEach((button) => {
         button.addEventListener("click", (event) => {
           const index = parseInt((event.target as HTMLElement).dataset.index!);
           const tooltip = tooltips[index];
   
-          // Create Edit Modal
           const editModal = document.createElement("div");
           editModal.className = "modal";
           editModal.innerHTML = `
@@ -88,7 +84,6 @@ export function initializeSidebar(
           `;
           document.body.appendChild(editModal);
   
-          // Add event listeners for Save and Cancel buttons
           const saveButton = document.getElementById("saveEditTooltip") as HTMLButtonElement;
           const cancelButton = document.getElementById("cancelEditTooltip") as HTMLButtonElement;
   
@@ -97,23 +92,21 @@ export function initializeSidebar(
             const newText = input.value.trim();
             if (newText) {
               onEdit(index, newText);
-              renderTooltipList(); // Refresh the list
-              editModal.remove(); // Close modal
+              renderTooltipList();
+              editModal.remove();
             }
           });
   
           cancelButton.addEventListener("click", () => {
-            editModal.remove(); // Close modal
+            editModal.remove();
           });
         });
       });
   
-      // Delete Tooltip with Confirmation Modal
       document.querySelectorAll(".btn-delete").forEach((button) => {
         button.addEventListener("click", (event) => {
           const index = parseInt((event.target as HTMLElement).dataset.index!);
   
-          // Create Delete Confirmation Modal
           const deleteModal = document.createElement("div");
           deleteModal.className = "modal";
           deleteModal.innerHTML = `
@@ -128,23 +121,21 @@ export function initializeSidebar(
           `;
           document.body.appendChild(deleteModal);
   
-          // Add event listeners for Confirm and Cancel buttons
           const confirmButton = document.getElementById("confirmDelete") as HTMLButtonElement;
           const cancelButton = document.getElementById("cancelDelete") as HTMLButtonElement;
   
           confirmButton.addEventListener("click", () => {
             onDelete(index);
-            renderTooltipList(); // Refresh the list
-            deleteModal.remove(); // Close modal
+            renderTooltipList();
+            deleteModal.remove();
           });
   
           cancelButton.addEventListener("click", () => {
-            deleteModal.remove(); // Close modal
+            deleteModal.remove();
           });
         });
       });
   
-      // Customize Tooltip
       document.querySelectorAll(".btn-customize").forEach((button) => {
         button.addEventListener("click", (event) => {
           const index = parseInt((event.target as HTMLElement).dataset.index!);
@@ -153,7 +144,6 @@ export function initializeSidebar(
         });
       });
   
-      // Save Customizations
       document.querySelectorAll(".btn-save-customize").forEach((button) => {
         button.addEventListener("click", (event) => {
           const index = parseInt((event.target as HTMLElement).dataset.index!);
@@ -171,18 +161,14 @@ export function initializeSidebar(
         });
       });
     }
-  
-    // Search functionality
-    searchInput.addEventListener("input", () => {
+      searchInput.addEventListener("input", () => {
       const searchTerm = searchInput.value.toLowerCase();
       const filteredTooltips = tooltips.filter((tooltip) =>
         tooltip.text.toLowerCase().includes(searchTerm)
       );
       renderTooltipList(filteredTooltips);
     });
-  
-    // Export functionality
-    exportButton.addEventListener("click", () => {
+      exportButton.addEventListener("click", () => {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tooltips));
       const downloadAnchor = document.createElement("a");
       downloadAnchor.setAttribute("href", dataStr);
@@ -192,7 +178,6 @@ export function initializeSidebar(
       downloadAnchor.remove();
     });
   
-    // Initial render
     renderTooltipList();
   }
   

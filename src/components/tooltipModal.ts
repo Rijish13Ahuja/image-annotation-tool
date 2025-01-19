@@ -3,10 +3,9 @@ export function createTooltipModal(
     y: number,
     onSave: (text: string) => void
   ): void {
-    // Check if a modal already exists
     const existingModal = document.getElementById("tooltipModal");
     if (existingModal) {
-      return; // Exit early to avoid duplicate initialization
+      return;
     }
   
     const modal = document.createElement("div");
@@ -32,24 +31,21 @@ export function createTooltipModal(
   
     tooltipInput.focus();
   
-    // Get modal dimensions after adding it to the DOM
     const modalRect = modal.getBoundingClientRect();
     const modalWidth = modalRect.width;
     const modalHeight = modalRect.height;
-    const tailSize = 12; // Size of the tooltip tail
-    const padding = 10; // Padding to prevent overflow
+    const tailSize = 12;
+    const padding = 10;
   
     let adjustedX = x;
     let adjustedY = y;
   
-    // Adjust horizontally
     if (x + modalWidth + padding > window.innerWidth) {
       adjustedX = window.innerWidth - modalWidth - padding;
     } else if (x < padding) {
       adjustedX = padding;
     }
   
-    // Adjust vertically
     if (y + modalHeight + padding > window.innerHeight) {
       adjustedY = window.innerHeight - modalHeight - padding - tailSize;
       modal.querySelector(".tooltip-tail")?.classList.add("tooltip-tail-top");
@@ -61,33 +57,29 @@ export function createTooltipModal(
     modal.style.left = `${adjustedX}px`;
     modal.style.top = `${adjustedY}px`;
   
-    // Save action
     const handleSave = () => {
       const text = tooltipInput.value.trim();
       if (text) {
-        onSave(text); // Invoke the callback with the entered text
+        onSave(text);
         cleanupModal();
       } else {
         alert("Tooltip text cannot be empty.");
       }
     };
   
-    // Cancel action
     const handleCancel = () => {
       cleanupModal();
     };
   
-    // Keydown handler for 'Escape'
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         cleanupModal();
       }
     };
   
-    // Cleanup modal with fade-out effect
     const cleanupModal = () => {
-      modal.classList.add("fade-out"); // Add fade-out animation class
-      setTimeout(() => modal.remove(), 300); // Remove modal after animation
+      modal.classList.add("fade-out");
+      setTimeout(() => modal.remove(), 300);
       saveButton.removeEventListener("click", handleSave);
       cancelButton.removeEventListener("click", handleCancel);
       document.removeEventListener("keydown", handleKeyDown);
@@ -97,7 +89,6 @@ export function createTooltipModal(
     cancelButton.addEventListener("click", handleCancel);
     document.addEventListener("keydown", handleKeyDown);
   
-    // Add fade-in animation
     modal.classList.add("fade-in");
   }
   
