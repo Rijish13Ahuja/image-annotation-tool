@@ -1,0 +1,136 @@
+/* Tooltip Modal Styling */
+.tooltip-modal {
+    position: absolute;
+    background: linear-gradient(135deg, #f8c291, #fad390);
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transform: translate(-50%, -120%) scale(0.9);
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+    max-width: 250px;
+  }
+  
+  /* Tooltip Tail */
+  .tooltip-tail {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(135deg, #f8c291, #fad390);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    animation: bounce 0.6s ease-in-out infinite;
+    z-index: 999;
+  }
+  
+  /* Textarea */
+  #tooltipInput {
+    width: 100%;
+    height: 60px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 8px;
+    font-family: "Arial", sans-serif;
+    background: #fffaf0;
+    color: #333;
+    resize: none;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  #tooltipInput:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Actions */
+  .tooltip-modal-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+  }
+  
+  .tooltip-modal-button {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: 50%;
+    background: #007bff;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .tooltip-modal-button:hover {
+    background: #0056b3;
+    transform: scale(1.1);
+  }
+  
+  .tooltip-modal-button::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .tooltip-modal-button:hover::after {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  
+  .tooltip-modal-button.cancel-btn {
+    background: #ff4d4d;
+  }
+  
+  .tooltip-modal-button.cancel-btn:hover {
+    background: #e60000;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -120%) scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, -110%) scale(1);
+    }
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  }
+  
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(-6px);
+    }
+  }
+  

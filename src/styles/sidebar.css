@@ -1,0 +1,422 @@
+/* Sidebar Container */
+.sidebar {
+    width: 360px;
+    padding: 16px;
+    background: linear-gradient(135deg, #fdebd0, #fad7a0); /* Warm gradient for sidebar */
+    box-shadow: -4px 0px 12px rgba(0, 0, 0, 0.1);
+    border-left: 2px solid #f7b98b; /* Soft warm border */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    max-height: 100vh; /* Ensure the sidebar stays within viewport */
+    transition: transform 0.3s ease;
+  }
+  
+  /* Sticky Search and Sort Controls */
+  .search-input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #f7b98b;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fef5e7; /* Subtle warm background */
+    transition: box-shadow 0.2s ease;
+  }
+  
+  .search-input:focus {
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(243, 156, 114, 0.4); /* Warm focus effect */
+  }
+  
+  /* Sort Controls */
+  .sort-controls {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  
+  .btn-sort {
+    background: #fdf2e9;
+    border: 1px solid #f7b98b;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .btn-sort:hover {
+    background: #fad7a0;
+    box-shadow: 0px 2px 4px rgba(243, 156, 114, 0.3);
+  }
+  
+  /* Tooltip List */
+  .tooltip-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto; /* Ensure long lists are scrollable */
+    max-height: calc(100vh - 200px); /* Adjust list height for better fit */
+  }
+  
+  /* Tooltip Items */
+  .tooltip-item {
+    background: #fdebd0; /* Warm background */
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .tooltip-item:hover {
+    transform: scale(1.02);
+    box-shadow: 0px 4px 12px rgba(243, 156, 114, 0.3);
+  }
+  
+  .tooltip-text {
+    font-size: 14px;
+    color: #7f5539; /* Rich brown text */
+    word-wrap: break-word; /* Prevents long text from breaking layout */
+  }
+  
+  /* Tooltip Actions */
+  .tooltip-actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .tooltip-actions button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  /* Action Buttons */
+  .btn-edit {
+    background: #f39c72; /* Warm orange */
+    color: #fff;
+  }
+  
+  .btn-edit:hover {
+    background: #e67e22; /* Slightly darker warm orange */
+  }
+  
+  .btn-delete {
+    background: #dc3545; /* Red for delete */
+    color: #fff;
+  }
+  
+  .btn-delete:hover {
+    background: #b21f2d;
+  }
+  
+  .btn-customize {
+    background: #f7dc6f; /* Warm yellow */
+    color: #856404;
+  }
+  
+  .btn-customize:hover {
+    background: #f4c542; /* Brighter yellow */
+  }
+  
+  /* Customize Panel */
+  .customize-panel {
+    background: #fdebd0;
+    border: 1px solid #f7b98b;
+    padding: 8px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+    animation: dropdown 0.3s ease;
+    overflow-y: auto; /* Prevent overflow issues */
+  }
+  
+  /* Inputs in Customize Panel */
+  .font-size-input,
+  .bg-color-input,
+  .text-color-input {
+    padding: 6px;
+    border: 1px solid #f7b98b;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fef5e7;
+  }
+  
+  /* Save Button */
+  .btn-save-customize {
+    background: #28a745; /* Green for save */
+    color: #fff;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-save-customize:hover {
+    background: #218838;
+  }
+  
+  /* Export Button */
+  .btn-export {
+    background: #17a2b8; /* Teal for export */
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .btn-export:hover {
+    background: #117a8b;
+  }
+  
+  /* Animations */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .tooltip-item.animate-fade-in {
+    animation: fadeIn 0.3s ease;
+  }
+  
+  @keyframes fadeOut {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+  }
+  
+  .tooltip-item.animate-fade-out {
+    animation: fadeOut 0.3s ease;
+    pointer-events: none;
+  }
+  /* Dark Mode Sidebar */
+[data-theme="dark"] .sidebar {
+    background: linear-gradient(135deg, #2c3e50, #34495e); /* Dark gradient for sidebar */
+    border-left: 2px solid #7f8c8d; /* Darker border */
+    box-shadow: -4px 0px 12px rgba(0, 0, 0, 0.3); /* Darker shadow */
+    color: #ecf0f1; /* Light text color for content */
+  }
+  
+  /* Search Input */
+  [data-theme="dark"] .search-input {
+    background: #34495e; /* Dark input background */
+    color: #ecf0f1; /* Light input text */
+    border: 1px solid #7f8c8d; /* Darker border */
+  }
+  
+  [data-theme="dark"] .search-input:focus {
+    box-shadow: 0px 0px 8px rgba(149, 165, 166, 0.4); /* Subtle light focus effect */
+  }
+  
+  /* Sort Controls */
+  [data-theme="dark"] .btn-sort {
+    background: #2c3e50; /* Dark button background */
+    color: #ecf0f1; /* Light button text */
+    border: 1px solid #7f8c8d; /* Dark border */
+  }
+  
+  [data-theme="dark"] .btn-sort:hover {
+    background: #34495e; /* Slightly lighter on hover */
+    box-shadow: 0px 2px 4px rgba(149, 165, 166, 0.3); /* Subtle hover shadow */
+  }
+  
+  /* Tooltip Items */
+  [data-theme="dark"] .tooltip-item {
+    background: #34495e; /* Dark item background */
+    color: #ecf0f1; /* Light text color */
+    border: 1px solid #7f8c8d; /* Dark border */
+  }
+  
+  [data-theme="dark"] .tooltip-item:hover {
+    box-shadow: 0px 4px 12px rgba(149, 165, 166, 0.3); /* Hover shadow */
+  }
+  
+  /* Action Buttons */
+  [data-theme="dark"] .btn-edit {
+    background: #e67e22; /* Vibrant orange for dark mode */
+    color: #fff;
+  }
+  
+  [data-theme="dark"] .btn-edit:hover {
+    background: #d35400; /* Darker orange on hover */
+  }
+  
+  [data-theme="dark"] .btn-delete {
+    background: #c0392b; /* Darker red for delete */
+    color: #fff;
+  }
+  
+  [data-theme="dark"] .btn-delete:hover {
+    background: #922b21;
+  }
+  
+  [data-theme="dark"] .btn-customize {
+    background: #f1c40f; /* Brighter yellow */
+    color: #333;
+  }
+  
+  [data-theme="dark"] .btn-customize:hover {
+    background: #f39c12;
+  }
+  
+  /* Customize Panel */
+  [data-theme="dark"] .customize-panel {
+    background: #2c3e50; /* Dark panel background */
+    border: 1px solid #7f8c8d; /* Darker border */
+  }
+  
+  [data-theme="dark"] .font-size-input,
+  [data-theme="dark"] .bg-color-input,
+  [data-theme="dark"] .text-color-input {
+    background: #34495e; /* Dark input background */
+    color: #ecf0f1; /* Light input text */
+    border: 1px solid #7f8c8d; /* Darker border */
+  }
+  
+  /* Save Button */
+  [data-theme="dark"] .btn-save-customize {
+    background: #27ae60; /* Vibrant green for save */
+    color: #fff;
+  }
+  
+  [data-theme="dark"] .btn-save-customize:hover {
+    background: #229954;
+  }
+  
+  /* Export Button */
+  [data-theme="dark"] .btn-export {
+    background: #16a085; /* Teal for export in dark mode */
+    color: #fff;
+  }
+  
+  [data-theme="dark"] .btn-export:hover {
+    background: #1abc9c;
+  }
+  /* Modal Overlay */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Warm semi-transparent overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px); /* Adds a slight blur for a modern effect */
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background: linear-gradient(135deg, #fdebd0, #fad7a0); /* Warm gradient */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    border: 2px solid #f7b98b; /* Matches the overall theme */
+  }
+  
+  /* Modal Heading */
+  .modal-content h3 {
+    margin: 0 0 12px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #7f5539; /* Rich brown for headings */
+  }
+  
+  /* Modal Paragraph */
+  .modal-content p {
+    margin: 0 0 20px;
+    font-size: 16px;
+    color: #856404; /* Warm text color */
+  }
+  
+  /* Modal Actions */
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  
+  /* Buttons in Modals */
+  .modal-actions button {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-weight: bold;
+  }
+  
+  /* Confirm Button */
+  .modal-actions #saveEditTooltip,
+  .modal-actions #confirmDelete {
+    background: #f39c72; /* Warm orange for confirm */
+    color: #fff;
+  }
+  
+  .modal-actions #saveEditTooltip:hover,
+  .modal-actions #confirmDelete:hover {
+    background: #e67e22; /* Darker orange on hover */
+    transform: scale(1.05);
+  }
+  
+  /* Cancel Button */
+  .modal-actions #cancelEditTooltip,
+  .modal-actions #cancelDelete {
+    background: #f7dc6f; /* Warm yellow for cancel */
+    color: #856404; /* Text color matches theme */
+  }
+  
+  .modal-actions #cancelEditTooltip:hover,
+  .modal-actions #cancelDelete:hover {
+    background: #f4c542; /* Brighter yellow on hover */
+    transform: scale(1.05);
+  }
+  
+  /* Input Fields for Edit */
+  .modal-content input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #f7b98b; /* Matches theme */
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fef5e7; /* Warm background */
+    margin-bottom: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+  }
+  
+  .modal-content input[type="text"]:focus {
+    outline: none;
+    border-color: #f39c72; /* Highlighted border on focus */
+  }

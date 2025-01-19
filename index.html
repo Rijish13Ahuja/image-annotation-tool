@@ -1,14 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Image Annotation Tool</title>
-    <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="/dist/styles.css">
-  </head>
-  <body class="bg-gray-100 text-gray-800">
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Annotation Tool</title>
+  <!-- Global Styles -->
+  <link href="/src/styles/global.css" rel="stylesheet" />
+  <!-- Component-Specific Styles -->
+  <link href="/src/styles/canvas.css" rel="stylesheet" />
+  <link href="/src/styles/sidebar.css" rel="stylesheet" />
+  <link href="/src/styles/theme.css" rel="stylesheet" />
+  <link href="/src/styles/tooltip.css" rel="stylesheet" />
+  <link href="/src/styles/tooltipModal.css" rel="stylesheet" />
+</head>
+<body>
+  <!-- Header Toolbar -->
+  <header class="header">
+    <h1>Image Annotation Tool</h1>
+    <div class="toolbar">
+      <button id="zoomIn" class="btn-primary">Zoom In</button>
+      <button id="zoomOut" class="btn-primary">Zoom Out</button>
+      <button id="resetCanvas" class="btn-primary">Reset</button>
+      <button id="toggleTheme" class="btn-secondary">Light/Dark</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main">
+    <!-- Canvas Area -->
+    <section 
+      class="canvas-container" 
+      id="canvasContainer"
+      ondragover="event.preventDefault()" 
+      ondrop="handleImageDrop(event)"
+    >
+      <canvas id="imageCanvas"></canvas>
+      <input
+        id="imageUpload"
+        type="file"
+        accept="image/*"
+        class="file-input"
+      />
+      <p class="drag-hint">Drag and drop an image here, or use the file upload button</p>
+    </section>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Tooltips</h2>
+      <input
+        id="searchTooltips"
+        type="text"
+        placeholder="Search tooltips..."
+        class="search-input"
+      />
+      <div id="tooltipList" class="tooltip-list">
+        <!-- Placeholder for tooltip list -->
+      </div>
+      <button id="exportTooltips" class="btn-export">Export Tooltips</button>
+    </aside>
+  </main>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
 </html>

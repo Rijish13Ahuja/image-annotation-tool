@@ -1,0 +1,53 @@
+/* Default Light Theme */
+:root {
+    --background-color: #fdebd0;
+    --text-color: #7f5539;
+    --button-primary-bg: #f39c72;
+    --button-primary-hover-bg: #e67e22;
+    --button-secondary-bg: #f7dc6f;
+    --button-secondary-hover-bg: #f4c542;
+    --border-color: #f7b98b;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dark Theme */
+  [data-theme="dark"] {
+    --background-color: #2c3e50;
+    --text-color: #ecf0f1;
+    --button-primary-bg: #34495e;
+    --button-primary-hover-bg: #2c3e50;
+    --button-secondary-bg: #7f8c8d;
+    --button-secondary-hover-bg: #95a5a6;
+    --border-color: #7f8c8d;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Applying the variables */
+  body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  button.btn-primary {
+    background-color: var(--button-primary-bg);
+    color: #fff;
+    border: 1px solid var(--border-color);
+    box-shadow: 0px 2px 4px var(--shadow-color);
+  }
+  
+  button.btn-primary:hover {
+    background-color: var(--button-primary-hover-bg);
+  }
+  
+  button.btn-secondary {
+    background-color: var(--button-secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0px 2px 4px var(--shadow-color);
+  }
+  
+  button.btn-secondary:hover {
+    background-color: var(--button-secondary-hover-bg);
+  }
+  

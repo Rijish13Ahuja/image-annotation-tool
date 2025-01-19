@@ -1,0 +1,232 @@
+/* Canvas Container Styling */
+.canvas-container {
+  flex-grow: 1;
+  position: relative;
+  padding: 8px;
+  background: linear-gradient(135deg, #fdebd0, #fad7a0); /* Warm gradient for canvas background */
+  overflow: hidden;
+  border: 2px solid #f7b98b; /* Soft warm border */
+  border-radius: 8px;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+  max-height: 400px;
+  max-width: 600px;
+  margin: 0 auto;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.canvas-container:hover {
+  border-color: #f39c72; /* Slightly darker warm color on hover */
+  box-shadow: 0px 4px 12px rgba(243, 156, 114, 0.2);
+}
+
+/* Canvas Styling */
+canvas {
+  display: block;
+  margin: 0 auto;
+  background-color: #fdf2e9; /* Subtle light warm background */
+  border: 1px solid #f8d3b8;
+  border-radius: 4px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  height: 300px;
+  transition: transform 0.3s ease;
+}
+
+canvas:hover {
+  transform: scale(1.01);
+  box-shadow: 0px 4px 14px rgba(243, 156, 114, 0.15); /* Slightly increased hover effect */
+}
+
+canvas:focus {
+  outline: 2px solid #f39c72; /* Warm outline for accessibility */
+}
+
+/* Resize Handles */
+.resize-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  background: rgba(243, 156, 114, 0.8); /* Warm tone handle */
+  border-radius: 50%;
+  cursor: nwse-resize;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.resize-handle:hover {
+  background: rgba(243, 156, 114, 1); /* Brighter on hover */
+  transform: scale(1.2);
+  box-shadow: 0px 4px 8px rgba(243, 156, 114, 0.3);
+}
+
+/* Resize Outline */
+.resize-outline {
+  position: absolute;
+  border: 2px dashed rgba(243, 156, 114, 0.5); /* Softer dashed outline */
+  pointer-events: none;
+}
+
+/* Dimensions Tooltip */
+.dimensions-tooltip {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  pointer-events: none;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+  transform: translate(-50%, -150%);
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -170%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -150%);
+  }
+}
+
+/* Interactive Feedback */
+canvas:hover {
+  transform: scale(1.01);
+  box-shadow: 0px 4px 12px rgba(243, 156, 114, 0.15); /* Enhanced hover feedback */
+}
+
+/* Empty State Placeholder */
+.canvas-container::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px;
+  color: #f5b041;
+  text-align: center;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+/* Accessibility Focus States */
+canvas:focus-visible {
+  outline: 2px solid #f4a261;
+  outline-offset: 4px;
+}
+
+/* Zoom Feedback */
+.canvas-container.zooming {
+  box-shadow: 0px 6px 16px rgba(243, 156, 114, 0.2); /* Subtle shadow for zoom */
+  border-color: #f4a261;
+}
+
+/* Responsiveness */
+.canvas-container {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+canvas {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+/* File Input and Controls */
+.file-input-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.file-input-wrapper .custom-file-button {
+  background-color: #f39c72; /* Matches hover state of container */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.file-input-wrapper .custom-file-button:hover {
+  background-color: #e67e22; /* Slightly darker on hover */
+  transform: scale(1.05);
+  box-shadow: 0px 4px 8px rgba(230, 126, 34, 0.3);
+}
+
+.file-input-wrapper input[type="file"] {
+  display: none;
+}
+/* Dark Mode Overrides */
+[data-theme="dark"] .canvas-container {
+  background: linear-gradient(135deg, #2c3e50, #34495e); /* Dark gradient */
+  border: 2px solid #7f8c8d; /* Darker border */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+[data-theme="dark"] .canvas-container:hover {
+  border-color: #95a5a6; /* Lighter hover border for dark mode */
+  box-shadow: 0px 4px 12px rgba(149, 165, 166, 0.4); /* Hover shadow */
+}
+
+[data-theme="dark"] canvas {
+  background-color: #34495e; /* Dark canvas background */
+  border: 1px solid #7f8c8d; /* Dark border */
+}
+
+[data-theme="dark"] canvas:focus {
+  outline: 2px solid #95a5a6; /* Focus color for dark mode */
+}
+
+[data-theme="dark"] .resize-handle {
+  background: rgba(128, 139, 150, 0.8); /* Darker handle */
+}
+
+[data-theme="dark"] .resize-handle:hover {
+  background: rgba(128, 139, 150, 1); /* Brighter hover handle */
+}
+
+[data-theme="dark"] .resize-outline {
+  border: 2px dashed rgba(128, 139, 150, 0.5); /* Dashed outline */
+}
+
+[data-theme="dark"] .dimensions-tooltip {
+  background: rgba(44, 62, 80, 0.9); /* Dark tooltip background */
+  color: #ecf0f1; /* Light text color */
+}
+
+[data-theme="dark"] .canvas-container::before {
+  color: #bdc3c7; /* Lighter placeholder text */
+}
+
+[data-theme="dark"] .file-input-wrapper .custom-file-button {
+  background-color: #7f8c8d; /* Dark button background */
+}
+
+[data-theme="dark"] .file-input-wrapper .custom-file-button:hover {
+  background-color: #95a5a6; /* Lighter hover button background */
+  box-shadow: 0px 4px 8px rgba(149, 165, 166, 0.3); /* Button hover shadow */
+}
+.btn-replace {
+  background: linear-gradient(135deg, #f39c72, #e67e22);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.btn-replace:hover {
+  background: #d35400;
+  transform: scale(1.05);
+  box-shadow: 0px 4px 8px rgba(211, 84, 0, 0.3);
+}
