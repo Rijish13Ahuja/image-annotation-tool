@@ -1,13 +1,24 @@
 export function initializeSidebar(
-    tooltips: { x: number; y: number; text: string; fontSize?: string; bgColor?: string; textColor?: string }[],
+    tooltips: {
+      x: number;
+      y: number;
+      text: string;
+      fontSize?: string;
+      bgColor?: string;
+      textColor?: string;
+    }[],
     onEdit: (index: number, newText: string) => void,
     onDelete: (index: number) => void,
-    onCustomize: (index: number, styles: { fontSize?: string; bgColor?: string; textColor?: string }) => void
+    onCustomize: (
+      index: number,
+      styles: { fontSize?: string; bgColor?: string; textColor?: string }
+    ) => void
   ) {
     const tooltipList = document.getElementById("tooltipList")!;
     const searchInput = document.getElementById("searchTooltips") as HTMLInputElement;
     const exportButton = document.getElementById("exportTooltips")!;
   
+    // Add sorting buttons only once
     if (!document.getElementById("sortByCreation")) {
       const sortControls = document.createElement("div");
       sortControls.className = "sort-controls";
@@ -27,15 +38,13 @@ export function initializeSidebar(
       tooltipList.parentElement?.insertBefore(sortControls, tooltipList);
   
       sortCreationButton.addEventListener("click", () => {
-        const sortedByCreation = [...tooltips];
-        renderTooltipList(sortedByCreation);
+        renderTooltipList([...tooltips]);
       });
   
       sortPositionButton.addEventListener("click", () => {
-        const sortedByPosition = [...tooltips].sort((a, b) =>
-          a.y === b.y ? a.x - b.x : a.y - b.y
+        renderTooltipList(
+          [...tooltips].sort((a, b) => (a.y === b.y ? a.x - b.x : a.y - b.y))
         );
-        renderTooltipList(sortedByPosition);
       });
     }
   
@@ -66,8 +75,11 @@ export function initializeSidebar(
         button.addEventListener("click", (event) => {
           const index = parseInt((event.target as HTMLElement).dataset.index!);
           const tooltip = tooltips[index];
+            const existingModal = document.getElementById("editTooltipModal");
+          if (existingModal) existingModal.remove();
   
           const editModal = document.createElement("div");
+          editModal.id = "editTooltipModal";
           editModal.className = "modal";
           editModal.innerHTML = `
             <div class="modal-content">
@@ -90,15 +102,17 @@ export function initializeSidebar(
           saveButton.addEventListener("click", () => {
             const input = document.getElementById("editTooltipInput") as HTMLInputElement;
             const newText = input.value.trim();
+  
             if (newText) {
-              onEdit(index, newText);
-              renderTooltipList();
-              editModal.remove();
+              tooltip.text = newText; 
+              onEdit(index, newText); 
+              renderTooltipList(); 
+              editModal.remove(); 
             }
           });
   
           cancelButton.addEventListener("click", () => {
-            editModal.remove();
+            editModal.remove(); 
           });
         });
       });
@@ -147,9 +161,15 @@ export function initializeSidebar(
       document.querySelectorAll(".btn-save-customize").forEach((button) => {
         button.addEventListener("click", (event) => {
           const index = parseInt((event.target as HTMLElement).dataset.index!);
-          const fontSizeInput = document.querySelector(`.font-size-input[data-index="${index}"]`) as HTMLInputElement;
-          const bgColorInput = document.querySelector(`.bg-color-input[data-index="${index}"]`) as HTMLInputElement;
-          const textColorInput = document.querySelector(`.text-color-input[data-index="${index}"]`) as HTMLInputElement;
+          const fontSizeInput = document.querySelector(
+            `.font-size-input[data-index="${index}"]`
+          ) as HTMLInputElement;
+          const bgColorInput = document.querySelector(
+            `.bg-color-input[data-index="${index}"]`
+          ) as HTMLInputElement;
+          const textColorInput = document.querySelector(
+            `.text-color-input[data-index="${index}"]`
+          ) as HTMLInputElement;
   
           const styles = {
             fontSize: fontSizeInput.value,
@@ -157,19 +177,23 @@ export function initializeSidebar(
             textColor: textColorInput.value,
           };
   
-          onCustomize(index, styles);
+          onCustomize(index, styles); 
+          renderTooltipList();
         });
       });
     }
-      searchInput.addEventListener("input", () => {
+  
+    searchInput.addEventListener("input", () => {
       const searchTerm = searchInput.value.toLowerCase();
       const filteredTooltips = tooltips.filter((tooltip) =>
         tooltip.text.toLowerCase().includes(searchTerm)
       );
       renderTooltipList(filteredTooltips);
     });
-      exportButton.addEventListener("click", () => {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tooltips));
+  
+    exportButton.addEventListener("click", () => {
+      const dataStr =
+        "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(tooltips));
       const downloadAnchor = document.createElement("a");
       downloadAnchor.setAttribute("href", dataStr);
       downloadAnchor.setAttribute("download", "tooltips.json");

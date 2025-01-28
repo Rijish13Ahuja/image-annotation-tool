@@ -1,6 +1,3 @@
-/* Global Styles */
-
-/* Light Theme Variables */
 :root {
   --background-gradient: linear-gradient(135deg, #fdebd0, #fad7a0);
   --header-gradient: linear-gradient(135deg, #fad7a0, #f7b98b);
@@ -20,7 +17,6 @@
   --btn-secondary-text: #856404;
 }
 
-/* Dark Theme Variables */
 [data-theme="dark"] {
   --background-gradient: linear-gradient(135deg, #2c3e50, #34495e);
   --header-gradient: linear-gradient(135deg, #34495e, #2c3e50);
@@ -97,7 +93,6 @@ button {
   transform: scale(1.05);
 }
 
-/* Main Content Layout */
 .main {
   display: flex;
   height: calc(100vh - 64px);
@@ -152,7 +147,6 @@ h2 {
   margin-top: 16px;
 }
 
-/* Fade-in animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -168,7 +162,6 @@ h2 {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Fade-out animation */
 @keyframes fadeOut {
   from {
     opacity: 1;
@@ -182,5 +175,5 @@ h2 {
 
 .tooltip-item.animate-fade-out {
   animation: fadeOut 0.3s ease-in-out;
-  pointer-events: none; /* Prevent interaction during animation */
+  pointer-events: none; 
 }

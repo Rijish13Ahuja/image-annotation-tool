@@ -6,6 +6,7 @@ import {
   editTooltip,
   deleteTooltip,
   customizeTooltip,
+  setTooltips,
 } from "./tooltips";
 import { createTooltipModal } from "./tooltipModal";
 
@@ -22,9 +23,9 @@ export function initializeCanvas() {
   let isDragging = false;
   let dragIndex: number | null = null;
   let isClicking = false;
-
   let resizing = false;
   let resizingComplete = false;
+
   const resizeHandleSize = 12;
   let aspectRatioLocked = true;
 
@@ -42,42 +43,41 @@ export function initializeCanvas() {
     "beforeend",
     `
     <div id="resizeOutline" class="resize-outline" style="display: none;"></div>
-    <div id="dimensionsTooltip" class="dimensions-tooltip" style="display: none;"></div>
+    <div id="canvasAlertModal" class="canvas-alert-modal"></div>
     `
   );
 
   const resizeOutline = document.getElementById("resizeOutline") as HTMLDivElement;
-  const dimensionsTooltip = document.getElementById("dimensionsTooltip") as HTMLDivElement;
+  const alertModal = document.getElementById("canvasAlertModal") as HTMLDivElement;
 
-  function updateSidebar() {
+  const updateSidebar = () => {
     initializeSidebar(
       getTooltips(),
-      (index) => {
-        const newText = prompt("Edit tooltip text:", getTooltips()[index].text);
-        if (newText) {
-          editTooltip(index, newText);
-          renderCanvas();
-        }
+      (index, newText) => {
+        console.log("Editing tooltip at index:", index, "with text:", newText);
+        editTooltip(index, newText);
+        renderCanvas();
       },
       (index) => {
+        console.log("Deleting tooltip at index:", index);
         deleteTooltip(index);
         renderCanvas();
       },
       (index, customization) => {
+        console.log("Customizing tooltip at index:", index, "with options:", customization);
         customizeTooltip(index, customization);
         renderCanvas();
       }
     );
-  }
+  };
 
-  function renderCanvas() {
+  const renderCanvas = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.save();
     ctx.scale(scale, scale);
 
     if (isImageUploaded && uploadedImage) {
       ctx.drawImage(uploadedImage, offsetX, offsetY, scaledWidth, scaledHeight);
-
       ctx.fillStyle = "rgba(255, 85, 85, 0.8)";
       ctx.beginPath();
       ctx.arc(
@@ -103,13 +103,12 @@ export function initializeCanvas() {
     renderTooltips(ctx, scale);
     ctx.restore();
     updateSidebar();
-  }
+  };
 
-  function resizeAndCenterImage(img: HTMLImageElement) {
+  const resizeAndCenterImage = (img: HTMLImageElement) => {
     const container = canvas.parentElement!;
     const maxWidth = container.clientWidth;
     const maxHeight = container.clientHeight;
-
     const aspectRatio = img.width / img.height;
 
     if (aspectRatio > maxWidth / maxHeight) {
@@ -125,48 +124,42 @@ export function initializeCanvas() {
 
     canvas.width = maxWidth;
     canvas.height = maxHeight;
-  }
+  };
 
-  function renderImage(img: HTMLImageElement) {
+  const renderImage = (img: HTMLImageElement) => {
     resizeAndCenterImage(img);
     uploadedImage = img;
     isImageUploaded = true;
     renderCanvas();
-  }
+    canvas.style.cursor = "crosshair"; 
+  };
 
-  function isInResizeHandle(x: number, y: number) {
-    return (
-      x >= offsetX + scaledWidth - resizeHandleSize &&
-      x <= offsetX + scaledWidth + resizeHandleSize &&
-      y >= offsetY + scaledHeight - resizeHandleSize &&
-      y <= offsetY + scaledHeight + resizeHandleSize
-    );
-  }
-
-  function getMouseCoordinates(event: MouseEvent) {
+  const getMouseCoordinates = (event: MouseEvent) => {
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
+    return {
+      x: (event.clientX - rect.left) * scaleX,
+      y: (event.clientY - rect.top) * scaleY,
+    };
+  };
 
-    const x = (event.clientX - rect.left) * scaleX;
-    const y = (event.clientY - rect.top) * scaleY;
-
-    return { x, y };
-  }
+  const showCanvasMessage = (message: string) => {
+    alertModal.innerText = message;
+    alertModal.classList.add("active");
+    setTimeout(() => {
+      alertModal.classList.remove("active");
+    }, 3000);
+  };
 
   canvas.addEventListener("mousedown", (event) => {
     isClicking = true;
     const { x, y } = getMouseCoordinates(event);
 
-    if (isInResizeHandle(x, y)) {
-      resizing = true;
-      resizingComplete = false;
-      return;
-    }
-
     dragIndex = getTooltips().findIndex(
       ({ x: tooltipX, y: tooltipY }) => Math.hypot(tooltipX - x, tooltipY - y) <= 10
     );
+
     if (dragIndex !== -1) {
       canvas.style.cursor = "grabbing";
       isDragging = true;
@@ -180,11 +173,7 @@ export function initializeCanvas() {
     if (isDragging && dragIndex !== null) {
       isClicking = false;
       const { x, y } = getMouseCoordinates(event);
-
-      const tooltips = getTooltips();
-      tooltips[dragIndex].x = x / scale;
-      tooltips[dragIndex].y = y / scale;
-
+      getTooltips()[dragIndex] = { ...getTooltips()[dragIndex], x: x / scale, y: y / scale };
       renderCanvas();
     }
   });
@@ -193,42 +182,41 @@ export function initializeCanvas() {
     if (isDragging) {
       isDragging = false;
       dragIndex = null;
-      canvas.style.cursor = "default";
+      canvas.style.cursor = "crosshair";
     }
   });
 
   canvas.addEventListener("click", (event) => {
     if (!isClicking || resizingComplete || isDragging) {
-        isClicking = false;
-        return;
+      isClicking = false;
+      return;
     }
-    isClicking = false;
 
     if (!isImageUploaded) {
-        alert("Please upload an image before adding tooltips.");
-        return;
+      showCanvasMessage("Please upload an image before adding tooltips.");
+      return;
     }
 
     const { x, y } = getMouseCoordinates(event);
 
     if (
-        x >= offsetX / scale &&
-        x <= (offsetX + scaledWidth) / scale &&
-        y >= offsetY / scale &&
-        y <= (offsetY + scaledHeight) / scale
+      x >= offsetX / scale &&
+      x <= (offsetX + scaledWidth) / scale &&
+      y >= offsetY / scale &&
+      y <= (offsetY + scaledHeight) / scale
     ) {
-        createTooltipModal(x, y, (text) => {
-            if (text) {
-                createTooltip(x / scale, y / scale, text);
-                renderCanvas();
-            }
-        });
-        
-    } else {
-        alert("Tooltips must be placed within the image boundaries.");
-    }
-});
+      const imageBounds = canvas.getBoundingClientRect();
 
+      createTooltipModal(x, y, imageBounds, (text) => {
+        createTooltip(x / scale, y / scale, text);
+        renderCanvas();
+      });
+    } else {
+      showCanvasMessage("Tooltips must be placed within the image boundaries.");
+    }
+
+    isClicking = false;
+  });
 
   imageUpload.addEventListener("change", (event) => {
     const file = (event.target as HTMLInputElement).files?.[0];
@@ -237,7 +225,11 @@ export function initializeCanvas() {
       reader.onload = () => {
         const img = new Image();
         img.src = reader.result as string;
-        img.onload = () => renderImage(img);
+        img.onload = () => {
+          setTooltips([]); 
+          updateSidebar(); 
+          renderImage(img); 
+        };
       };
       reader.readAsDataURL(file);
     }
@@ -260,6 +252,7 @@ export function initializeCanvas() {
   resetButton.addEventListener("click", () => {
     scale = 1;
     renderCanvas();
+    canvas.style.cursor = isImageUploaded ? "crosshair" : "default";
   });
 
   renderCanvas();
